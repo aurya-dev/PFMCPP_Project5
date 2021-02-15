@@ -283,7 +283,7 @@ void DrumMachine::recPattern(int patternLength)
 
 Pattern DrumMachine::checkPatternPos(int pos, int start, int end)
 {
-    Pattern ptrn(0);
+    Pattern p(0);
 
     std::cout << "Start at pos " << start << "..." << std::endl;
     for(int s = start; s <= end; s++)
@@ -291,14 +291,14 @@ Pattern DrumMachine::checkPatternPos(int pos, int start, int end)
         if(pos == s) 
         {
             std::cout << "PlayHead at " << pos << std::endl;
-            ptrn.playHeadPos = pos;
-            return ptrn;
+            p.playHeadPos = pos;
+            return p;
         }
         std::cout << "At pos " << s << " no PlayHead found" << std::endl;
     }
     std::cout << "PlayHead didn't found  :(" << std::endl;
 
-    return ptrn;
+    return p;
 }
 
 
