@@ -69,7 +69,7 @@ struct DishWasher
 };
 
 
-DishWasher::DishWasher() {}
+DishWasher::DishWasher() { std::cout << "DishWasher is constructed" << std::endl; }
 
 
 DishWasher::~DishWasher() 
@@ -137,15 +137,20 @@ struct Display
     int numPixelWidth;
     int numPixelHeight;
 
-    Display (int w = 1024, int h = 678) : numPixelWidth(w), numPixelHeight(h) {}
+    Display(int w = 1024, int h = 678) : numPixelWidth(w), numPixelHeight(h) {}
+    ~Display() { std::cout << "Display distroyed" << std::endl; } 
 };
 
 struct Drumpad
 {
     int numPads;
 
-    Drumpad (int num) : numPads(num) {}
+    Drumpad(int num) : numPads(num) {}
+    ~Drumpad() { std::cout << "Drumpad distroyed" << std::endl; }
 };
+
+
+
 
 struct VolumeControl 
 {
@@ -154,8 +159,16 @@ struct VolumeControl
     bool isMaxVolume();
     void decreaseMasterVolume(int newVolume);
 
-    VolumeControl (int maxV = 127) : maxVolume(maxV), currentVol(0) {} 
+    VolumeControl(int maxV = 127) : maxVolume(maxV), currentVol(0) {} 
+    ~VolumeControl();
 };
+
+
+VolumeControl::~VolumeControl()
+{
+    currentVol = 0;
+    std::cout << "VolumeControl is destroyed" << std::endl;
+}
 
 
 void VolumeControl::decreaseMasterVolume(int newVolume) 
@@ -182,7 +195,15 @@ struct PlayButton
     bool isFlash;
 
     PlayButton () : isLit(false), isFlash(false) {}
+    ~PlayButton ();
 };
+
+PlayButton::~PlayButton()
+{
+    isLit = false;
+    isFlash = false;
+    std::cout << "PlayButton is distroyed" << std::endl;
+}
 
 struct RecordButton
 {
@@ -190,13 +211,22 @@ struct RecordButton
     bool isFlash;
 
     RecordButton () : isLit(false), isFlash(false) {}
+    ~RecordButton ();
 };
+
+RecordButton::~RecordButton()
+{
+    isLit = false;
+    isFlash = false;
+    std::cout << "RecordButton is distroyed" << std::endl;    
+}
 
 struct Pattern
 {
     int playHeadPos;
     std::string sequenceData = "";
     Pattern( int pos ) : playHeadPos( pos ), sequenceData("") {}
+    ~Pattern() { std::cout << "Pattern distroyed" << std::endl; }
 };
 
 
@@ -333,6 +363,7 @@ struct DrillMachine
         float maxTemperature {303.3f};
 
         DrillBit();
+        ~DrillBit(); 
 
         void drill(int depth = 10);
         bool isDull(float currentTemperature);
@@ -366,7 +397,11 @@ DrillMachine::~DrillMachine()
 }
 
 
-DrillMachine::DrillBit::DrillBit() {}
+DrillMachine::DrillBit::DrillBit() { std::cout << "DrillBit is constructed" << std::endl; }
+
+
+DrillMachine::DrillBit::~DrillBit() { std::cout << "DrillBit is distroyed" << std::endl; }
+
 
 void DrillMachine::DrillBit::drill(int depth) 
 {
