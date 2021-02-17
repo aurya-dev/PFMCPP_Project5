@@ -77,7 +77,14 @@ struct DishWashingProcess
 {
     int errorAtMinute;
     DishWashingProcess(int m) : errorAtMinute(m) {} 
+
+    void printErrorMessage();
 };
+
+void DishWashingProcess::printErrorMessage()
+{
+    std::cout << "DishWashingProcess errorAtMinute: Error on minute " << this->errorAtMinute << std::endl;
+}
 
 struct DishWasher
 {
@@ -96,16 +103,17 @@ struct DishWasher
     void startAtTimer(int startMinutesLater); 
     float printMaxDishElements(); 
     DishWashingProcess checkErrors(int errorTime);
+    void printMaxWashTemperature();
 
 };
 
 
-DishWasher::DishWasher() { std::cout << "DishWasher is constructed" << std::endl; }
+DishWasher::DishWasher() { std::cout << "DishWasher(): DishWasher is constructed" << std::endl; }
 
 
 DishWasher::~DishWasher() 
 {
-    std::cout << "DishWasher distroyed!" << std::endl;
+    std::cout << "~DishWasher(): DishWasher distroyed!" << std::endl;
 }
 
 
@@ -117,22 +125,28 @@ bool DishWasher::washDishes(int programNumber)
 
 bool DishWasher::dryDishes(int duration, float temperature)
 {
-    return (duration <= maxWashingDuration || temperature <= maxWashTemperature);
+    return (duration <= this->maxWashingDuration || temperature <= this->maxWashTemperature);
 }
 
 
 void DishWasher::startAtTimer(int startMinutesLater)
 {
-    waitMilliSec = startMinutesLater * 1000;
-    washDishes(1);    
+    this->waitMilliSec = startMinutesLater * 1000;
+    this->washDishes(1);    
 } 
 
 
 float DishWasher::printMaxDishElements() 
 {
-    float maxDishElements = washingRoomVolume / 0.5f;
-    std::cout << "You can put" << maxDishElements << "dish elements in dish washer" << std::endl;
+    float maxDishElements = this->washingRoomVolume / 0.5f;
+    std::cout << "DishWasher maxDishElements: You can put" << maxDishElements << "dish elements in dish washer" << std::endl;
     return maxDishElements;
+}
+
+
+void DishWasher::printMaxWashTemperature()
+{
+    std::cout << "DishWasher maxWashTemperature: The maximal temperature of the washing process is " << this->maxWashTemperature << std::endl;
 }
 
 
@@ -140,7 +154,7 @@ DishWashingProcess DishWasher::checkErrors(int errorTime)
 {
     DishWashingProcess process(false);
     int timeMarker{0};
-    while (timeMarker < maxWashingDuration)
+    while (timeMarker < this->maxWashingDuration)
     {
         if(errorTime == timeMarker) 
         {
@@ -204,10 +218,10 @@ VolumeControl::~VolumeControl()
 
 void VolumeControl::decreaseMasterVolume(int newVolume) 
 {
-    if(newVolume < currentVol) 
+    if(newVolume < this->currentVol) 
     {
-        std::cout << "Volume decreased from " << currentVol << " to " << newVolume << std::endl;
-        currentVol = newVolume;
+        std::cout << "VolumeControlVolume currentVol: decreased from " << this->currentVol << " to " << newVolume << std::endl;
+        this->currentVol = newVolume;
     }
     else 
         std::cout << "New volume isn't smaller than the current volume" << std::endl;
@@ -216,7 +230,7 @@ void VolumeControl::decreaseMasterVolume(int newVolume)
 
 bool VolumeControl::isMaxVolume()
 {
-    return (currentVol == 127);
+    return (this->currentVol == 127);
 }
 
 
@@ -231,8 +245,8 @@ struct PlayButton
 
 PlayButton::~PlayButton()
 {
-    isLit = false;
-    isFlash = false;
+    this->isLit = false;
+    this->isFlash = false;
     std::cout << "PlayButton is distroyed" << std::endl;
 }
 
@@ -247,8 +261,8 @@ struct RecordButton
 
 RecordButton::~RecordButton()
 {
-    isLit = false;
-    isFlash = false;
+    this->isLit = false;
+    this->isFlash = false;
     std::cout << "RecordButton is distroyed" << std::endl;    
 }
 
@@ -256,9 +270,21 @@ struct Pattern
 {
     int playHeadPos;
     std::string sequenceData = "";
+
     Pattern( int pos ) : playHeadPos( pos ), sequenceData("") {}
     ~Pattern() { std::cout << "Pattern distroyed" << std::endl; }
+
+    void printResult(int start, int end);
 };
+
+
+void Pattern::printResult(int start, int end)
+{
+    if(this->playHeadPos) 
+        std::cout << "Pattern playHeadPos: In range from pos " << start << " to " << end << " the playhead of the pattern is at " << this->playHeadPos << std::endl;
+    else
+        std::cout << "Pattern: In range from pos " << start << " to " << end << " playhead position doesn't exsists" << std::endl;
+}
 
 
 struct DrumMachine
@@ -436,41 +462,41 @@ DrillMachine::DrillBit::~DrillBit() { std::cout << "DrillBit is distroyed" << st
 
 void DrillMachine::DrillBit::drill(int depth) 
 {
-    isStucked = (depth > length);
+    this->isStucked = (depth > this->length);
 }
 
 
 bool DrillMachine::DrillBit::isDull(float currentTemperature) 
 {
     std::cout << "Current temperature : " << currentTemperature << std::endl;
-    return isToHot(currentTemperature);
+    return this->isToHot(currentTemperature);
 }
 
 
 bool DrillMachine::DrillBit::isToHot(float currentTemperature)
 {
-    return currentTemperature > maxTemperature;
+    return currentTemperature > this->maxTemperature;
 }
 
 
 void DrillMachine::DrillBit::printStatus()
 {
     std::cout << "Drillbit - Status" << std::endl << "---------------------------------" << std::endl;
-    std::cout << "drillChuck: " << drillChuck << std::endl;
-    std::cout << "length: " << length << std::endl;
-    std::cout << "material: " << material << std::endl;
-    std::cout << "isHardened: " << isHardened << std::endl;
-    std::cout << "isForWood: " << isForWood << std::endl;
-    std::cout << "isStucked: " << isStucked << std::endl;
-    std::cout << "maxTemperature: " << maxTemperature << std::endl;  
+    std::cout << "DrillMachine::DrillBit drillChuck: " << this->drillChuck << std::endl;
+    std::cout << "DrillMachine::DrillBit length: " << this->length << std::endl;
+    std::cout << "DrillMachine::DrillBit material: " << this->material << std::endl;
+    std::cout << "DrillMachine::DrillBit isHardened: " << this->isHardened << std::endl;
+    std::cout << "DrillMachine::DrillBit isForWood: " << this->isForWood << std::endl;
+    std::cout << "DrillMachine::DrillBit isStucked: " << this->isStucked << std::endl;
+    std::cout << "DrillMachine::DrillBit maxTemperature: " << this->maxTemperature << std::endl;  
 }
 
 
 bool DrillMachine::drillHole(DrillBit bit)
 {
-    if(bit.drillChuck <= sizeOfDrillChucks) 
+    if(bit.drillChuck <= this->sizeOfDrillChucks) 
     {
-        std::cout << "Drill process starts!" << std::endl;
+        std::cout << "drillHole():  Drill process starts!" << std::endl;
         bit.drill(15);
         return true;
     }
@@ -480,12 +506,12 @@ bool DrillMachine::drillHole(DrillBit bit)
 
 bool DrillMachine::screwScrew(int speed, bool screwIn)
 {
-    if(accuTooWeak == false) 
+    if(this->accuTooWeak == false) 
     {
         if(screwIn) 
-            screwTime = speed * 5;
+            this->screwTime = speed * 5;
         else 
-            screwTime = speed * 6;
+            this->screwTime = speed * 6;
         return true;
     }
     return false;
@@ -493,17 +519,17 @@ bool DrillMachine::screwScrew(int speed, bool screwIn)
 
 void DrillMachine::loadAccu()
 {
-    accuTooWeak = false;
+    this->accuTooWeak = false;
 }
 
 
 void DrillMachine::printMachineProperties()
 {
     std::cout << "Drill machine proberties" << std::endl << "------------------------------------" << std::endl;
-    std::cout << "Size of drill chucks: " << sizeOfDrillChucks << std::endl;
-    std::cout << "Number of Modes: " << numOfModes << std::endl;
-    std::cout << "Motorpower: " << motorPower << std::endl;
-    std::cout << "Cable length: " << cableLength << std::endl;
+    std::cout << "DrillMachine sizeOfDrillChucks: Size of drill chucks: " << this->sizeOfDrillChucks << std::endl;
+    std::cout << "DrillMachine numOfModes: Number of Modes: " << this->numOfModes << std::endl;
+    std::cout << "DrillMachine motorPower: Motorpower: " << this->motorPower << std::endl;
+    std::cout << "DrillMachine cableLength: Cable length: " << this->cableLength << std::endl;
 }
 
 
@@ -535,31 +561,31 @@ struct ServiceStation
 
 ServiceStation::ServiceStation()
 {
-    std::cout << "Max washing duration of the demage maschine is :" << demagedMachine.maxWashingDuration << std::endl;
+    std::cout << "ServiceStation(): Max washing duration of the demage maschine is :" << demagedMachine.maxWashingDuration << std::endl;
 }
 
 
 ServiceStation::~ServiceStation()
 {
-    saveServiceProtocol();
+    this->saveServiceProtocol();
 }
 
 
 void ServiceStation::checkTheErrorProtocol()
 {
-    demagedMachine.checkErrors(17);
+    this->demagedMachine.checkErrors(17);
 }
 
 
 void ServiceStation::startMachine()
 {
-    demagedMachine.startAtTimer(0);
+    this->demagedMachine.startAtTimer(0);
 }
 
 
 void ServiceStation::saveServiceProtocol()
 {
-    std::cout << "Protocol saved!" << std::endl;
+    std::cout << "ServiceStation saveServiceProtocol(): Protocol saved!" << std::endl;
 }
 
 
@@ -584,28 +610,28 @@ struct Project
 
 Project::Project()
 {
-    MC505.volControl.currentVol = 0;
-    std::cout << "MC-505 is ready" << std::endl;
+    this->MC505.volControl.currentVol = 0;
+    std::cout << "Project(): MC-505 is ready" << std::endl;
 }
 
 
 Project::~Project()
 {
-    MC505.stopPattern();
-    MC505.ptrn.sequenceData = "";
-    std::cout << "Pattern player stopped" << std::endl;
+    this->MC505.stopPattern();
+    this->MC505.ptrn.sequenceData = "";
+    std::cout << "~Project(): Pattern player stopped" << std::endl;
 }
 
 
 void Project::load()
 {
-    MC505.ptrn.sequenceData = "name:Song1;mididata:1234567890";
+    this->MC505.ptrn.sequenceData = "name:Song1;mididata:1234567890";
 } 
 
 
 void Project::play()
 {
-    MC505.playPattern(1);
+    this->MC505.playPattern(1);
 }
 
 
@@ -628,55 +654,82 @@ int main()
 {
     // DishWasher
 
+    std::cout << "##########################################" << std::endl;
+    std::cout << "DishWasher" << std::endl;
+    std::cout << "##########################################" << std::endl;
+
     DishWasher firstDishWasher;
-    std::cout << "The maximal temperature of the washing process is " << firstDishWasher.maxWashTemperature << std::endl;
+
+    std::cout << "firstDishWasher maxWashTemperature: The maximal temperature of the washing process is " << firstDishWasher.maxWashTemperature << std::endl;
+
+    firstDishWasher.printMaxWashTemperature();
+
 
     if(firstDishWasher.washDishes(4)) 
     {
         firstDishWasher.dryDishes(120, 40.3f);
-        std::cout << "Wash and dry process sucessfull!" << std::endl;
+        std::cout << "firstDishWasher: Wash and dry process sucessfull!" << std::endl;
     }
 
     firstDishWasher.printMaxDishElements();
 
     DishWashingProcess process = firstDishWasher.checkErrors(400);
-    if(process.errorAtMinute)
-        std::cout << "Error on minute " << process.errorAtMinute << std::endl;
+    if(process.errorAtMinute) {
+        std::cout << "process errorAtMinute: Error on minute " << process.errorAtMinute << std::endl;
+        process.printErrorMessage();
+    }
     else
-        std::cout << "No errors in the maximal washing duration" << std::endl;
+        std::cout << "process: No errors in the maximal washing duration" << std::endl;
 
 
     // DrumMachine
+
+    std::cout << "##########################################" << std::endl;
+    std::cout << "DrumMachine" << std::endl;
+    std::cout << "##########################################" << std::endl;
 
     DrumMachine drumMachine;
 
     if(drumMachine.volControl.isMaxVolume()) 
     {
-        std::cout << "The drummachine is to loud!!!" << std::endl;
+        std::cout << "drumMachine: The drummachine is to loud!!!" << std::endl;
         drumMachine.volControl.decreaseMasterVolume(50);
     }
     else 
     {
-        std::cout << "The drummaschine is to quite" << std::endl;
-        drumMachine.volControl.decreaseMasterVolume(80);
-        std::cout << "Current volume is " << drumMachine.volControl.currentVol << std::endl;
+        std::cout << "drumMachine: The drummaschine is to quite" << std::endl;
+        
+        int newVolume = 80;
+        std::cout << "drumMachine volControl currentVol: will decreased from " << drumMachine.volControl.currentVol << " to " << newVolume << std::endl;
+        drumMachine.volControl.decreaseMasterVolume(newVolume);
+
+        std::cout << "drumMachine volControl.currentVol: Current volume is " << drumMachine.volControl.currentVol << std::endl;
     }
 
     int pos{16}, start{4}, end{8};
     auto ptrn = drumMachine.checkPatternPos(pos, start, end);
-    if(ptrn.playHeadPos) 
-        std::cout << "In range from pos " << start << " to " << end << " the playhead of the pattern is at " << ptrn.playHeadPos << std::endl;
-    else
-        std::cout << "In range from pos " << start << " to " << end << " playhead position " << pos << " doesn't exsists" << std::endl;
-        
 
+    if(ptrn.playHeadPos) 
+        std::cout << "ptrn playHeadPos: In range from pos " << start << " to " << end << " the playhead of the pattern is at " << ptrn.playHeadPos << std::endl;
+    else
+        std::cout << "ptrn: In range from pos " << start << " to " << end << " playhead position " << pos << " doesn't exsists" << std::endl;
+        
+    ptrn.printResult(start, end);
 
     // ServiceStation
+
+    std::cout << "##########################################" << std::endl;
+    std::cout << "ServiceStation" << std::endl;
+    std::cout << "##########################################" << std::endl;
 
     ServiceStation station;
 
 
     // Project
+
+    std::cout << "##########################################" << std::endl;
+    std::cout << "Project" << std::endl;
+    std::cout << "##########################################" << std::endl;    
 
     Project myProject;
 
