@@ -68,15 +68,18 @@ struct DishWashingProcess
     DishWashingProcess(int m) : errorAtMinute(m) {} 
 
     void printErrorMessage();
+
+    JUCE_LEAK_DETECTOR(DishWashingProcess)
 };
 
 struct DishWashingProcessWrapper
 {
     DishWashingProcessWrapper(DishWashingProcess* d) : washPtr(d) {}
     std::unique_ptr<DishWashingProcess> washPtr = nullptr;
+
 };  
 
-//JUCE_LEAK_DETECTOR(DishWashingProcess)
+
 
 
 
@@ -104,9 +107,10 @@ struct DishWasher
     DishWashingProcess checkErrors(int errorTime);
     void printMaxWashTemperature();
 
+    JUCE_LEAK_DETECTOR(DishWasher)
 };
 
-//JUCE_LEAK_DETECTOR(DishWasher)
+
 
 
 struct DishWasherWrapper
@@ -198,9 +202,11 @@ struct Display
 
     Display(int w = 1024, int h = 678) : numPixelWidth(w), numPixelHeight(h) {}
     ~Display() { std::cout << "Display distroyed" << std::endl; } 
+
+    JUCE_LEAK_DETECTOR(Display)
 };
 
-//JUCE_LEAK_DETECTOR(Display)
+
 
 
 struct Drumpad
@@ -209,9 +215,11 @@ struct Drumpad
 
     Drumpad(int num) : numPads(num) {}
     ~Drumpad() { std::cout << "Drumpad distroyed" << std::endl; }
+
+    JUCE_LEAK_DETECTOR(Drumpad)
 };
 
-//JUCE_LEAK_DETECTOR(Drumpad)
+
 
 
 struct VolumeControl 
@@ -223,9 +231,11 @@ struct VolumeControl
 
     VolumeControl(int maxV = 127) : maxVolume(maxV), currentVol(0) {} 
     ~VolumeControl();
+
+    JUCE_LEAK_DETECTOR(VolumeControl)
 };
 
-//JUCE_LEAK_DETECTOR(VolumeControl)
+
 
 
 VolumeControl::~VolumeControl()
@@ -260,9 +270,11 @@ struct PlayButton
 
     PlayButton () : isLit(false), isFlash(false) {}
     ~PlayButton ();
+
+    JUCE_LEAK_DETECTOR(PlayButton)
 };
 
-//JUCE_LEAK_DETECTOR(PlayButton)
+
 
 
 PlayButton::~PlayButton()
@@ -279,9 +291,11 @@ struct RecordButton
 
     RecordButton () : isLit(false), isFlash(false) {}
     ~RecordButton ();
+
+    JUCE_LEAK_DETECTOR(RecordButton)
 };
 
-//JUCE_LEAK_DETECTOR(RecordButton)
+
 
 
 RecordButton::~RecordButton()
@@ -300,9 +314,11 @@ struct Pattern
     ~Pattern() { std::cout << "Pattern distroyed" << std::endl; }
 
     void printResult(int start, int end);
+
+    JUCE_LEAK_DETECTOR(Pattern)
 };
 
-//JUCE_LEAK_DETECTOR(Pattern)
+
 
 
 void Pattern::printResult(int start, int end)
@@ -331,9 +347,11 @@ struct DrumMachine
     void stopPattern();
     void recPattern(int patternLength = 4);
     Pattern checkPatternPos(int pos, int start, int end);
+
+    JUCE_LEAK_DETECTOR(DrumMachine)
 };
 
-//JUCE_LEAK_DETECTOR(DrumMachine)
+
 
 
 struct DrumMachineWrapper
@@ -471,9 +489,11 @@ struct DrillMachine
     void checkDrillProcess(int drillDuration);
 
     DrillBit myDrillBit;
+
+    JUCE_LEAK_DETECTOR(DrillMachine)
 };
 
-//JUCE_LEAK_DETECTOR(DrillMachine)
+
 
 
 
@@ -595,6 +615,8 @@ struct ServiceStation
     void checkTheErrorProtocol();
     void startMachine();
     void saveServiceProtocol();
+
+        JUCE_LEAK_DETECTOR(ServiceStation)
 };
 
 
@@ -605,7 +627,7 @@ struct ServiceStationWrapper
 }; 
 
 
-//JUCE_LEAK_DETECTOR(ServiceStation)
+
 
 
 ServiceStation::ServiceStation()
@@ -654,6 +676,7 @@ struct Project
     void load();
     void play();
 
+    JUCE_LEAK_DETECTOR(Project)
 };
 
 
@@ -664,7 +687,7 @@ struct ProjectWrapper
 }; 
 
 
-//JUCE_LEAK_DETECTOR(Project)
+
 
 Project::Project()
 {
