@@ -18,21 +18,20 @@ Create a branch named Part3
       replace your objects with your wrapper classes, which have your UDTs as pointer member variables.
       
     This means if you had something like the following in your main() previously: 
-*/
+
 #if false
- Axe axe;
- std::cout << "axe sharpness: " << axe.sharpness << "\n";
- #endif
- /*
-    you would update that to use your wrappers:
-    
- */
+Axe axe;
+std::cout << "axe sharpness: " << axe.sharpness << "\n";
+#endif
+
+    you would update that to use your wrappers:    
+
 
 #if false
 AxeWrapper axWrapper( new Axe() );
 std::cout << "axe sharpness: " << axWrapper.axPtr->sharpness << "\n";
 #endif
-/*
+
 notice that the object name has changed from 'axe' to 'axWrapper'
 You don't have to do this, you can keep your current object name and just change its type to your Wrapper class
 
@@ -50,6 +49,10 @@ You don't have to do this, you can keep your current object name and just change
 
 
 #include <iostream>
+#include <memory>
+
+#include "LeakedObjectDetector.h"
+
 
 /*
  copied UDT 1:
@@ -66,6 +69,16 @@ struct DishWashingProcess
 
     void printErrorMessage();
 };
+
+struct DishWashingProcessWrapper
+{
+    DishWashingProcessWrapper(DishWashingProcess* d) : washPtr(d) {}
+    std::unique_ptr<DishWashingProcess> washPtr = nullptr;
+};  
+
+//JUCE_LEAK_DETECTOR(DishWashingProcess)
+
+
 
 void DishWashingProcess::printErrorMessage()
 {
@@ -92,6 +105,15 @@ struct DishWasher
     void printMaxWashTemperature();
 
 };
+
+//JUCE_LEAK_DETECTOR(DishWasher)
+
+
+struct DishWasherWrapper
+{
+    DishWasherWrapper(DishWasher* d) : diWaPtr(d) {}
+    std::unique_ptr<DishWasher> diWaPtr = nullptr;
+}; 
 
 
 DishWasher::DishWasher() { std::cout << "DishWasher(): DishWasher is constructed" << std::endl; }
@@ -136,6 +158,9 @@ void DishWasher::printMaxWashTemperature()
 }
 
 
+
+
+
 DishWashingProcess DishWasher::checkErrors(int errorTime)
 {
     DishWashingProcess process(false);
@@ -155,6 +180,9 @@ DishWashingProcess DishWasher::checkErrors(int errorTime)
     return process;
 }
 
+
+
+
 /*
  copied UDT 2:
  */
@@ -172,6 +200,9 @@ struct Display
     ~Display() { std::cout << "Display distroyed" << std::endl; } 
 };
 
+//JUCE_LEAK_DETECTOR(Display)
+
+
 struct Drumpad
 {
     int numPads;
@@ -180,7 +211,7 @@ struct Drumpad
     ~Drumpad() { std::cout << "Drumpad distroyed" << std::endl; }
 };
 
-
+//JUCE_LEAK_DETECTOR(Drumpad)
 
 
 struct VolumeControl 
@@ -193,6 +224,8 @@ struct VolumeControl
     VolumeControl(int maxV = 127) : maxVolume(maxV), currentVol(0) {} 
     ~VolumeControl();
 };
+
+//JUCE_LEAK_DETECTOR(VolumeControl)
 
 
 VolumeControl::~VolumeControl()
@@ -229,6 +262,9 @@ struct PlayButton
     ~PlayButton ();
 };
 
+//JUCE_LEAK_DETECTOR(PlayButton)
+
+
 PlayButton::~PlayButton()
 {
     this->isLit = false;
@@ -244,6 +280,9 @@ struct RecordButton
     RecordButton () : isLit(false), isFlash(false) {}
     ~RecordButton ();
 };
+
+//JUCE_LEAK_DETECTOR(RecordButton)
+
 
 RecordButton::~RecordButton()
 {
@@ -262,6 +301,8 @@ struct Pattern
 
     void printResult(int start, int end);
 };
+
+//JUCE_LEAK_DETECTOR(Pattern)
 
 
 void Pattern::printResult(int start, int end)
@@ -291,6 +332,15 @@ struct DrumMachine
     void recPattern(int patternLength = 4);
     Pattern checkPatternPos(int pos, int start, int end);
 };
+
+//JUCE_LEAK_DETECTOR(DrumMachine)
+
+
+struct DrumMachineWrapper
+{
+    DrumMachineWrapper(DrumMachine* d) : drMaPtr(d) {}
+    std::unique_ptr<DrumMachine> drMaPtr = nullptr;
+}; 
 
 
 DrumMachine::DrumMachine()
@@ -423,6 +473,9 @@ struct DrillMachine
     DrillBit myDrillBit;
 };
 
+//JUCE_LEAK_DETECTOR(DrillMachine)
+
+
 
 DrillMachine::DrillMachine() : 
 sizeOfDrillChucks(10),
@@ -545,6 +598,16 @@ struct ServiceStation
 };
 
 
+struct ServiceStationWrapper
+{
+    ServiceStationWrapper(ServiceStation* s) : serStaPtr(s) {}
+    std::unique_ptr<ServiceStation> serStaPtr = nullptr;
+}; 
+
+
+//JUCE_LEAK_DETECTOR(ServiceStation)
+
+
 ServiceStation::ServiceStation()
 {
     std::cout << "ServiceStation(): Max washing duration of the demage maschine is :" << demagedMachine.maxWashingDuration << std::endl;
@@ -594,6 +657,15 @@ struct Project
 };
 
 
+struct ProjectWrapper
+{
+    ProjectWrapper(Project* p) : prjPtr(p) {}
+    std::unique_ptr<Project> prjPtr = nullptr;
+}; 
+
+
+//JUCE_LEAK_DETECTOR(Project)
+
 Project::Project()
 {
     this->MC505.volControl.currentVol = 0;
@@ -636,6 +708,8 @@ void Project::play()
  */
 
 #include <iostream>
+
+
 int main()
 {
     // DishWasher
@@ -644,8 +718,10 @@ int main()
     std::cout << "DishWasher" << std::endl;
     std::cout << "##########################################" << std::endl;
 
-    DishWasher firstDishWasher;
+    DishWasherWrapper firstDishWasherWrapper(new DishWasher);
+    std::cout << "firstDishWasherWrapper maxWashTemperature: The maximal temperature of the washing process is " << firstDishWasherWrapper.diWaPtr->maxWashTemperature << std::endl;
 
+    DishWasher firstDishWasher;
     std::cout << "firstDishWasher maxWashTemperature: The maximal temperature of the washing process is " << firstDishWasher.maxWashTemperature << std::endl;
 
     firstDishWasher.printMaxWashTemperature();
@@ -673,6 +749,25 @@ int main()
     std::cout << "##########################################" << std::endl;
     std::cout << "DrumMachine" << std::endl;
     std::cout << "##########################################" << std::endl;
+
+    DrumMachineWrapper drumWrapper(new DrumMachine);
+
+    if(drumWrapper.drMaPtr->volControl.isMaxVolume()) 
+    {
+        std::cout << "drumWrapper: The drummachine is to loud!!!" << std::endl;
+        drumWrapper.drMaPtr->volControl.decreaseMasterVolume(50);
+    }
+    else 
+    {
+        std::cout << "drumWrapper: The drummaschine is to quite" << std::endl;
+        
+        int newVolume = 80;
+        std::cout << "drumWrapper volControl currentVol: will decreased from " << drumWrapper.drMaPtr->volControl.currentVol << " to " << newVolume << std::endl;
+        drumWrapper.drMaPtr->volControl.decreaseMasterVolume(newVolume);
+
+        std::cout << "drumWrapper volControl.currentVol: Current volume is " << drumWrapper.drMaPtr->volControl.currentVol << std::endl;
+    }
+
 
     DrumMachine drumMachine;
 
@@ -708,6 +803,9 @@ int main()
     std::cout << "ServiceStation" << std::endl;
     std::cout << "##########################################" << std::endl;
 
+    ServiceStationWrapper stationWrapper(new ServiceStation);
+    stationWrapper.serStaPtr->saveServiceProtocol();
+
     ServiceStation station;
 
 
@@ -716,6 +814,9 @@ int main()
     std::cout << "##########################################" << std::endl;
     std::cout << "Project" << std::endl;
     std::cout << "##########################################" << std::endl;    
+
+    ProjectWrapper prjWrapper(new Project);
+    prjWrapper.prjPtr->MC505.playPattern(1);
 
     Project myProject;
 
