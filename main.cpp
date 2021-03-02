@@ -707,20 +707,20 @@ int main()
     std::cout << "DishWasher" << std::endl;
     std::cout << "##########################################" << std::endl;
 
-    DishWasherWrapper firstDishWasher(new DishWasher);
-    std::cout << "firstDishWasherWrapper maxWashTemperature: The maximal temperature of the washing process is " << firstDishWasher.diWaPtr->maxWashTemperature << std::endl;
+    DishWasherWrapper firstDishWasherWrapper(new DishWasher);
+    std::cout << "firstDishWasherWrapper maxWashTemperature: The maximal temperature of the washing process is " << firstDishWasherWrapper.diWaPtr->maxWashTemperature << std::endl;
 
-    firstDishWasher.diWaPtr->printMaxWashTemperature();
+    firstDishWasherWrapper.diWaPtr->printMaxWashTemperature();
 
-    if(firstDishWasher.diWaPtr->washDishes(4)) 
+    if(firstDishWasherWrapper.diWaPtr->washDishes(4)) 
     {
-        firstDishWasher.diWaPtr->dryDishes(120, 40.3f);
+        firstDishWasherWrapper.diWaPtr->dryDishes(120, 40.3f);
         std::cout << "firstDishWasher: Wash and dry process sucessfull!" << std::endl;
     }
 
-    firstDishWasher.diWaPtr->printMaxDishElements();
+    firstDishWasherWrapper.diWaPtr->printMaxDishElements();
 
-    DishWashingProcess process = firstDishWasher.diWaPtr->checkErrors(400);
+    DishWashingProcess process = firstDishWasherWrapper.diWaPtr->checkErrors(400);
     if(process.errorAtMinute) {
         std::cout << "process errorAtMinute: Error on minute " << process.errorAtMinute << std::endl;
         process.printErrorMessage();
@@ -735,27 +735,27 @@ int main()
     std::cout << "DrumMachine" << std::endl;
     std::cout << "##########################################" << std::endl;
 
-    DrumMachineWrapper drumMachine(new DrumMachine());
+    DrumMachineWrapper drumMachineWrapper(new DrumMachine());
 
-    if(drumMachine.drMaPtr->volControl.isMaxVolume()) 
+    if(drumMachineWrapper.drMaPtr->volControl.isMaxVolume()) 
     {
         std::cout << "drumWrapper: The drummachine is to loud!!!" << std::endl;
-        drumMachine.drMaPtr->volControl.decreaseMasterVolume(50);
+        drumMachineWrapper.drMaPtr->volControl.decreaseMasterVolume(50);
     }
     else 
     {
         std::cout << "drumWrapper: The drummaschine is to quite" << std::endl;
         
         int newVolume = 80;
-        std::cout << "drumWrapper volControl currentVol: will decreased from " << drumMachine.drMaPtr->volControl.currentVol << " to " << newVolume << std::endl;
-        drumMachine.drMaPtr->volControl.decreaseMasterVolume(newVolume);
+        std::cout << "drumWrapper volControl currentVol: will decreased from " << drumMachineWrapper.drMaPtr->volControl.currentVol << " to " << newVolume << std::endl;
+        drumMachineWrapper.drMaPtr->volControl.decreaseMasterVolume(newVolume);
 
-        std::cout << "drumWrapper volControl.currentVol: Current volume is " << drumMachine.drMaPtr->volControl.currentVol << std::endl;
+        std::cout << "drumWrapper volControl.currentVol: Current volume is " << drumMachineWrapper.drMaPtr->volControl.currentVol << std::endl;
     }
 
 
     int pos{16}, start{4}, end{8};
-    auto ptrn = drumMachine.drMaPtr->checkPatternPos(pos, start, end);
+    auto ptrn = drumMachineWrapper.drMaPtr->checkPatternPos(pos, start, end);
 
     if(ptrn.playHeadPos) 
         std::cout << "ptrn playHeadPos: In range from pos " << start << " to " << end << " the playhead of the pattern is at " << ptrn.playHeadPos << std::endl;
@@ -770,8 +770,8 @@ int main()
     std::cout << "ServiceStation" << std::endl;
     std::cout << "##########################################" << std::endl;
 
-    ServiceStationWrapper station(new ServiceStation());
-    station.serStaPtr->saveServiceProtocol();
+    ServiceStationWrapper stationWrapper(new ServiceStation());
+    stationWrapper.serStaPtr->saveServiceProtocol();
 
 
     // Project
@@ -780,8 +780,8 @@ int main()
     std::cout << "Project" << std::endl;
     std::cout << "##########################################" << std::endl;    
 
-    ProjectWrapper myProject(new Project());
-    myProject.prjPtr->MC505.playPattern(1);
+    ProjectWrapper myProjectWrapper(new Project());
+    myProjectWrapper.prjPtr->MC505.playPattern(1);
 
 
     std::cout << "good to go!" << std::endl;
