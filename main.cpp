@@ -742,9 +742,7 @@ int main()
     std::cout << "##########################################" << std::endl;
 
     DishWasherWrapper firstDishWasherWrapper(new DishWasher);
-    std::cout << "firstDishWasherWrapper maxWashTemperature: The maximal temperature of the washing process is " << firstDishWasherWrapper.diWaPtr->maxWashTemperature << std::endl;
 
-    DishWasher firstDishWasher;
     std::cout << "firstDishWasher maxWashTemperature: The maximal temperature of the washing process is " << firstDishWasher.maxWashTemperature << std::endl;
 
     firstDishWasher.printMaxWashTemperature();
@@ -773,26 +771,7 @@ int main()
     std::cout << "DrumMachine" << std::endl;
     std::cout << "##########################################" << std::endl;
 
-    DrumMachineWrapper drumWrapper(new DrumMachine);
-
-    if(drumWrapper.drMaPtr->volControl.isMaxVolume()) 
-    {
-        std::cout << "drumWrapper: The drummachine is to loud!!!" << std::endl;
-        drumWrapper.drMaPtr->volControl.decreaseMasterVolume(50);
-    }
-    else 
-    {
-        std::cout << "drumWrapper: The drummaschine is to quite" << std::endl;
-        
-        int newVolume = 80;
-        std::cout << "drumWrapper volControl currentVol: will decreased from " << drumWrapper.drMaPtr->volControl.currentVol << " to " << newVolume << std::endl;
-        drumWrapper.drMaPtr->volControl.decreaseMasterVolume(newVolume);
-
-        std::cout << "drumWrapper volControl.currentVol: Current volume is " << drumWrapper.drMaPtr->volControl.currentVol << std::endl;
-    }
-
-
-    DrumMachine drumMachine;
+    DrumMachineWrapper drumMachine(new DrumMachine());
 
     if(drumMachine.volControl.isMaxVolume()) 
     {
@@ -826,10 +805,7 @@ int main()
     std::cout << "ServiceStation" << std::endl;
     std::cout << "##########################################" << std::endl;
 
-    ServiceStationWrapper stationWrapper(new ServiceStation);
-    stationWrapper.serStaPtr->saveServiceProtocol();
-
-    ServiceStation station;
+    ServiceStationWrapper station(new ServiceStation());
 
 
     // Project
@@ -838,10 +814,7 @@ int main()
     std::cout << "Project" << std::endl;
     std::cout << "##########################################" << std::endl;    
 
-    ProjectWrapper prjWrapper(new Project);
-    prjWrapper.prjPtr->MC505.playPattern(1);
-
-    Project myProject;
+    ProjectWrapper myProject(new Project());
 
 
     std::cout << "good to go!" << std::endl;
