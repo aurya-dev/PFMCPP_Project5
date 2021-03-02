@@ -707,24 +707,20 @@ int main()
     std::cout << "DishWasher" << std::endl;
     std::cout << "##########################################" << std::endl;
 
-    DishWasherWrapper firstDishWasherWrapper(new DishWasher);
-    std::cout << "firstDishWasherWrapper maxWashTemperature: The maximal temperature of the washing process is " << firstDishWasherWrapper.diWaPtr->maxWashTemperature << std::endl;
+    DishWasherWrapper firstDishWasher(new DishWasher);
+    std::cout << "firstDishWasherWrapper maxWashTemperature: The maximal temperature of the washing process is " << firstDishWasher.diWaPtr->maxWashTemperature << std::endl;
 
-    DishWasher firstDishWasher;
-    std::cout << "firstDishWasher maxWashTemperature: The maximal temperature of the washing process is " << firstDishWasher.maxWashTemperature << std::endl;
+    firstDishWasher.diWaPtr->printMaxWashTemperature();
 
-    firstDishWasher.printMaxWashTemperature();
-
-
-    if(firstDishWasher.washDishes(4)) 
+    if(firstDishWasher.diWaPtr->washDishes(4)) 
     {
-        firstDishWasher.dryDishes(120, 40.3f);
+        firstDishWasher.diWaPtr->dryDishes(120, 40.3f);
         std::cout << "firstDishWasher: Wash and dry process sucessfull!" << std::endl;
     }
 
-    firstDishWasher.printMaxDishElements();
+    firstDishWasher.diWaPtr->printMaxDishElements();
 
-    DishWashingProcess process = firstDishWasher.checkErrors(400);
+    DishWashingProcess process = firstDishWasher.diWaPtr->checkErrors(400);
     if(process.errorAtMinute) {
         std::cout << "process errorAtMinute: Error on minute " << process.errorAtMinute << std::endl;
         process.printErrorMessage();
@@ -739,45 +735,27 @@ int main()
     std::cout << "DrumMachine" << std::endl;
     std::cout << "##########################################" << std::endl;
 
-    DrumMachineWrapper drumWrapper(new DrumMachine);
+    DrumMachineWrapper drumMachine(new DrumMachine());
 
-    if(drumWrapper.drMaPtr->volControl.isMaxVolume()) 
+    if(drumMachine.drMaPtr->volControl.isMaxVolume()) 
     {
         std::cout << "drumWrapper: The drummachine is to loud!!!" << std::endl;
-        drumWrapper.drMaPtr->volControl.decreaseMasterVolume(50);
+        drumMachine.drMaPtr->volControl.decreaseMasterVolume(50);
     }
     else 
     {
         std::cout << "drumWrapper: The drummaschine is to quite" << std::endl;
         
         int newVolume = 80;
-        std::cout << "drumWrapper volControl currentVol: will decreased from " << drumWrapper.drMaPtr->volControl.currentVol << " to " << newVolume << std::endl;
-        drumWrapper.drMaPtr->volControl.decreaseMasterVolume(newVolume);
+        std::cout << "drumWrapper volControl currentVol: will decreased from " << drumMachine.drMaPtr->volControl.currentVol << " to " << newVolume << std::endl;
+        drumMachine.drMaPtr->volControl.decreaseMasterVolume(newVolume);
 
-        std::cout << "drumWrapper volControl.currentVol: Current volume is " << drumWrapper.drMaPtr->volControl.currentVol << std::endl;
+        std::cout << "drumWrapper volControl.currentVol: Current volume is " << drumMachine.drMaPtr->volControl.currentVol << std::endl;
     }
 
-
-    DrumMachine drumMachine;
-
-    if(drumMachine.volControl.isMaxVolume()) 
-    {
-        std::cout << "drumMachine: The drummachine is to loud!!!" << std::endl;
-        drumMachine.volControl.decreaseMasterVolume(50);
-    }
-    else 
-    {
-        std::cout << "drumMachine: The drummaschine is to quite" << std::endl;
-        
-        int newVolume = 80;
-        std::cout << "drumMachine volControl currentVol: will decreased from " << drumMachine.volControl.currentVol << " to " << newVolume << std::endl;
-        drumMachine.volControl.decreaseMasterVolume(newVolume);
-
-        std::cout << "drumMachine volControl.currentVol: Current volume is " << drumMachine.volControl.currentVol << std::endl;
-    }
 
     int pos{16}, start{4}, end{8};
-    auto ptrn = drumMachine.checkPatternPos(pos, start, end);
+    auto ptrn = drumMachine.drMaPtr->checkPatternPos(pos, start, end);
 
     if(ptrn.playHeadPos) 
         std::cout << "ptrn playHeadPos: In range from pos " << start << " to " << end << " the playhead of the pattern is at " << ptrn.playHeadPos << std::endl;
@@ -792,10 +770,8 @@ int main()
     std::cout << "ServiceStation" << std::endl;
     std::cout << "##########################################" << std::endl;
 
-    ServiceStationWrapper stationWrapper(new ServiceStation);
-    stationWrapper.serStaPtr->saveServiceProtocol();
-
-    ServiceStation station;
+    ServiceStationWrapper station(new ServiceStation());
+    station.serStaPtr->saveServiceProtocol();
 
 
     // Project
@@ -804,10 +780,8 @@ int main()
     std::cout << "Project" << std::endl;
     std::cout << "##########################################" << std::endl;    
 
-    ProjectWrapper prjWrapper(new Project);
-    prjWrapper.prjPtr->MC505.playPattern(1);
-
-    Project myProject;
+    ProjectWrapper myProject(new Project());
+    myProject.prjPtr->MC505.playPattern(1);
 
 
     std::cout << "good to go!" << std::endl;
