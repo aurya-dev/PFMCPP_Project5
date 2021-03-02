@@ -1,11 +1,8 @@
 /*
  Project 5: Part 3 / 4
  video: Chapter 3 Part 4: 
-
 Create a branch named Part3
-
  the 'new' keyword
-
  1) add #include "LeakedObjectDetector.h" to main
  
  3) Add 'JUCE_LEAK_DETECTOR(OwnerClass)' at the end of your UDTs.
@@ -18,28 +15,20 @@ Create a branch named Part3
       replace your objects with your wrapper classes, which have your UDTs as pointer member variables.
       
     This means if you had something like the following in your main() previously: 
-*/
 #if false
- Axe axe;
- std::cout << "axe sharpness: " << axe.sharpness << "\n";
- #endif
- /*
-    you would update that to use your wrappers:
-    
- */
-
+Axe axe;
+std::cout << "axe sharpness: " << axe.sharpness << "\n";
+#endif
+    you would update that to use your wrappers:    
 #if false
 AxeWrapper axWrapper( new Axe() );
 std::cout << "axe sharpness: " << axWrapper.axPtr->sharpness << "\n";
 #endif
-/*
 notice that the object name has changed from 'axe' to 'axWrapper'
 You don't have to do this, you can keep your current object name and just change its type to your Wrapper class
-
  8) After you finish, click the [run] button.  Clear up any errors or warnings as best you can.
  
  see here for an example: https://repl.it/@matkatmusic/ch3p04example
-
  you can safely ignore any warnings about exit-time-destructors.
  if you would like to suppress them, add -Wno-exit-time-destructors to the .replit file 
    with the other warning suppression flags
@@ -50,6 +39,10 @@ You don't have to do this, you can keep your current object name and just change
 
 
 #include <iostream>
+#include <memory>
+
+#include "LeakedObjectDetector.h"
+
 
 /*
  copied UDT 1:
@@ -65,7 +58,16 @@ struct DishWashingProcess
     DishWashingProcess(int m) : errorAtMinute(m) {} 
 
     void printErrorMessage();
+
+    JUCE_LEAK_DETECTOR(DishWashingProcess)  
 };
+
+struct DishWashingProcessWrapper
+{
+    DishWashingProcessWrapper(DishWashingProcess* d) : washPtr(d) {}
+    std::unique_ptr<DishWashingProcess> washPtr = nullptr;
+};  
+
 
 void DishWashingProcess::printErrorMessage()
 {
@@ -91,7 +93,15 @@ struct DishWasher
     DishWashingProcess checkErrors(int errorTime);
     void printMaxWashTemperature();
 
+    JUCE_LEAK_DETECTOR(DishWasher)
 };
+
+
+struct DishWasherWrapper
+{
+    DishWasherWrapper(DishWasher* d) : diWaPtr(d) {}
+    std::unique_ptr<DishWasher> diWaPtr = nullptr;
+}; 
 
 
 DishWasher::DishWasher() { std::cout << "DishWasher(): DishWasher is constructed" << std::endl; }
@@ -136,6 +146,9 @@ void DishWasher::printMaxWashTemperature()
 }
 
 
+
+
+
 DishWashingProcess DishWasher::checkErrors(int errorTime)
 {
     DishWashingProcess process(false);
@@ -155,6 +168,9 @@ DishWashingProcess DishWasher::checkErrors(int errorTime)
     return process;
 }
 
+
+
+
 /*
  copied UDT 2:
  */
@@ -170,7 +186,10 @@ struct Display
 
     Display(int w = 1024, int h = 678) : numPixelWidth(w), numPixelHeight(h) {}
     ~Display() { std::cout << "Display distroyed" << std::endl; } 
+
+    JUCE_LEAK_DETECTOR(Display)
 };
+
 
 struct Drumpad
 {
@@ -178,9 +197,9 @@ struct Drumpad
 
     Drumpad(int num) : numPads(num) {}
     ~Drumpad() { std::cout << "Drumpad distroyed" << std::endl; }
+
+    JUCE_LEAK_DETECTOR(Drumpad)
 };
-
-
 
 
 struct VolumeControl 
@@ -192,6 +211,8 @@ struct VolumeControl
 
     VolumeControl(int maxV = 127) : maxVolume(maxV), currentVol(0) {} 
     ~VolumeControl();
+
+    JUCE_LEAK_DETECTOR(VolumeControl)
 };
 
 
@@ -227,7 +248,10 @@ struct PlayButton
 
     PlayButton () : isLit(false), isFlash(false) {}
     ~PlayButton ();
+
+    JUCE_LEAK_DETECTOR(PlayButton)
 };
+
 
 PlayButton::~PlayButton()
 {
@@ -243,7 +267,10 @@ struct RecordButton
 
     RecordButton () : isLit(false), isFlash(false) {}
     ~RecordButton ();
+
+    JUCE_LEAK_DETECTOR(RecordButton)
 };
+
 
 RecordButton::~RecordButton()
 {
@@ -261,7 +288,11 @@ struct Pattern
     ~Pattern() { std::cout << "Pattern distroyed" << std::endl; }
 
     void printResult(int start, int end);
+
+    JUCE_LEAK_DETECTOR(Pattern)
 };
+
+
 
 
 void Pattern::printResult(int start, int end)
@@ -290,7 +321,18 @@ struct DrumMachine
     void stopPattern();
     void recPattern(int patternLength = 4);
     Pattern checkPatternPos(int pos, int start, int end);
+
+    JUCE_LEAK_DETECTOR(DrumMachine)
 };
+
+
+
+
+struct DrumMachineWrapper
+{
+    DrumMachineWrapper(DrumMachine* d) : drMaPtr(d) {}
+    std::unique_ptr<DrumMachine> drMaPtr = nullptr;
+}; 
 
 
 DrumMachine::DrumMachine()
@@ -421,7 +463,12 @@ struct DrillMachine
     void checkDrillProcess(int drillDuration);
 
     DrillBit myDrillBit;
+
+    JUCE_LEAK_DETECTOR(DrillMachine)
 };
+
+
+
 
 
 DrillMachine::DrillMachine() : 
@@ -542,7 +589,16 @@ struct ServiceStation
     void checkTheErrorProtocol();
     void startMachine();
     void saveServiceProtocol();
+
+    JUCE_LEAK_DETECTOR(ServiceStation)
 };
+
+
+struct ServiceStationWrapper
+{
+    ServiceStationWrapper(ServiceStation* s) : serStaPtr(s) {}
+    std::unique_ptr<ServiceStation> serStaPtr = nullptr;
+}; 
 
 
 ServiceStation::ServiceStation()
@@ -591,7 +647,15 @@ struct Project
     void load();
     void play();
 
+    JUCE_LEAK_DETECTOR(Project)
 };
+
+
+struct ProjectWrapper
+{
+    ProjectWrapper(Project* p) : prjPtr(p) {}
+    std::unique_ptr<Project> prjPtr = nullptr;
+}; 
 
 
 Project::Project()
@@ -623,19 +687,18 @@ void Project::play()
 
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
-
  Commit your changes by clicking on the Source Control panel on the left, entering a message, and click [Commit and push].
  
  If you didn't already: 
     Make a pull request after you make your first commit
     pin the pull request link and this repl.it link to our DM thread in a single message.
-
  send me a DM to review your pull request when the project is ready for review.
-
  Wait for my code review.
  */
 
 #include <iostream>
+
+
 int main()
 {
     // DishWasher
@@ -644,22 +707,20 @@ int main()
     std::cout << "DishWasher" << std::endl;
     std::cout << "##########################################" << std::endl;
 
-    DishWasher firstDishWasher;
+    DishWasherWrapper firstDishWasherWrapper(new DishWasher);
+    std::cout << "firstDishWasherWrapper maxWashTemperature: The maximal temperature of the washing process is " << firstDishWasherWrapper.diWaPtr->maxWashTemperature << std::endl;
 
-    std::cout << "firstDishWasher maxWashTemperature: The maximal temperature of the washing process is " << firstDishWasher.maxWashTemperature << std::endl;
+    firstDishWasherWrapper.diWaPtr->printMaxWashTemperature();
 
-    firstDishWasher.printMaxWashTemperature();
-
-
-    if(firstDishWasher.washDishes(4)) 
+    if(firstDishWasherWrapper.diWaPtr->washDishes(4)) 
     {
-        firstDishWasher.dryDishes(120, 40.3f);
+        firstDishWasherWrapper.diWaPtr->dryDishes(120, 40.3f);
         std::cout << "firstDishWasher: Wash and dry process sucessfull!" << std::endl;
     }
 
-    firstDishWasher.printMaxDishElements();
+    firstDishWasherWrapper.diWaPtr->printMaxDishElements();
 
-    DishWashingProcess process = firstDishWasher.checkErrors(400);
+    DishWashingProcess process = firstDishWasherWrapper.diWaPtr->checkErrors(400);
     if(process.errorAtMinute) {
         std::cout << "process errorAtMinute: Error on minute " << process.errorAtMinute << std::endl;
         process.printErrorMessage();
@@ -674,26 +735,27 @@ int main()
     std::cout << "DrumMachine" << std::endl;
     std::cout << "##########################################" << std::endl;
 
-    DrumMachine drumMachine;
+    DrumMachineWrapper drumMachineWrapper(new DrumMachine());
 
-    if(drumMachine.volControl.isMaxVolume()) 
+    if(drumMachineWrapper.drMaPtr->volControl.isMaxVolume()) 
     {
-        std::cout << "drumMachine: The drummachine is to loud!!!" << std::endl;
-        drumMachine.volControl.decreaseMasterVolume(50);
+        std::cout << "drumWrapper: The drummachine is to loud!!!" << std::endl;
+        drumMachineWrapper.drMaPtr->volControl.decreaseMasterVolume(50);
     }
     else 
     {
-        std::cout << "drumMachine: The drummaschine is to quite" << std::endl;
+        std::cout << "drumWrapper: The drummaschine is to quite" << std::endl;
         
         int newVolume = 80;
-        std::cout << "drumMachine volControl currentVol: will decreased from " << drumMachine.volControl.currentVol << " to " << newVolume << std::endl;
-        drumMachine.volControl.decreaseMasterVolume(newVolume);
+        std::cout << "drumWrapper volControl currentVol: will decreased from " << drumMachineWrapper.drMaPtr->volControl.currentVol << " to " << newVolume << std::endl;
+        drumMachineWrapper.drMaPtr->volControl.decreaseMasterVolume(newVolume);
 
-        std::cout << "drumMachine volControl.currentVol: Current volume is " << drumMachine.volControl.currentVol << std::endl;
+        std::cout << "drumWrapper volControl.currentVol: Current volume is " << drumMachineWrapper.drMaPtr->volControl.currentVol << std::endl;
     }
 
+
     int pos{16}, start{4}, end{8};
-    auto ptrn = drumMachine.checkPatternPos(pos, start, end);
+    auto ptrn = drumMachineWrapper.drMaPtr->checkPatternPos(pos, start, end);
 
     if(ptrn.playHeadPos) 
         std::cout << "ptrn playHeadPos: In range from pos " << start << " to " << end << " the playhead of the pattern is at " << ptrn.playHeadPos << std::endl;
@@ -708,7 +770,8 @@ int main()
     std::cout << "ServiceStation" << std::endl;
     std::cout << "##########################################" << std::endl;
 
-    ServiceStation station;
+    ServiceStationWrapper stationWrapper(new ServiceStation());
+    stationWrapper.serStaPtr->saveServiceProtocol();
 
 
     // Project
@@ -717,7 +780,8 @@ int main()
     std::cout << "Project" << std::endl;
     std::cout << "##########################################" << std::endl;    
 
-    Project myProject;
+    ProjectWrapper myProjectWrapper(new Project());
+    myProjectWrapper.prjPtr->MC505.playPattern(1);
 
 
     std::cout << "good to go!" << std::endl;
