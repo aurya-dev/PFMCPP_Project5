@@ -1,6 +1,8 @@
 
 #include "Wrappers.h"
 
+
+
 DishWasherWrapper::DishWasherWrapper(DishWasher* d) 
 {
     diWaPtr = d;
@@ -9,7 +11,6 @@ DishWasherWrapper::DishWasherWrapper(DishWasher* d)
 DishWasherWrapper::~DishWasherWrapper()
 {
     delete diWaPtr;
-    diWaPtr = nullptr;
 }
 
 
@@ -55,3 +56,4 @@ ProjectWrapper::~ProjectWrapper()
 {
     delete prjPtr;
 }
+
