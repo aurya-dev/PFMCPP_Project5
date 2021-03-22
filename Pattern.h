@@ -1,5 +1,7 @@
 #pragma once
 
+#include "LeakedObjectDetector.h"
+
 struct Pattern
 {
     int playHeadPos;

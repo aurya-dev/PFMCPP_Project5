@@ -28,3 +28,4 @@ void ServiceStation::saveServiceProtocol()
 {
     std::cout << "ServiceStation saveServiceProtocol(): Protocol saved!" << std::endl;
 }
+

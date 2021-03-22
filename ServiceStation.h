@@ -1,5 +1,8 @@
 #pragma once
 
+#include "LeakedObjectDetector.h"
+
+#include "DishWasher.h"
 
 struct ServiceStation
 {

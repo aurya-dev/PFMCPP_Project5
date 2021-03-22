@@ -1,5 +1,9 @@
 #pragma once
 
+#include <iostream>
+
+#include "LeakedObjectDetector.h"
+
 
 struct DishWashingProcess
 {

@@ -6,3 +6,4 @@ RecordButton::~RecordButton()
     this->isFlash = false;
     std::cout << "RecordButton is distroyed" << std::endl;    
 }
+

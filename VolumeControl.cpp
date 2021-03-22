@@ -23,3 +23,4 @@ bool VolumeControl::isMaxVolume()
 {
     return (this->currentVol == 127);
 }
+

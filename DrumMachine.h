@@ -1,5 +1,7 @@
 #pragma once
 
+#include "LeakedObjectDetector.h"
+
 #include "Display.h"
 #include "Drumpad.h"
 #include "VolumeControl.h"

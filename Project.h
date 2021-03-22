@@ -1,5 +1,7 @@
 #pragma once
 
+#include "LeakedObjectDetector.h"
+
 #include "DrumMachine.h"
 
 struct Project
