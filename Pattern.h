@@ -7,7 +7,7 @@ struct Pattern
     int playHeadPos;
     std::string sequenceData = "";
 
-    Pattern( int pos ) : playHeadPos( pos ), sequenceData("") {}
+    Pattern( int pos );
     ~Pattern() { std::cout << "Pattern distroyed" << std::endl; }
 
     void printResult(int start, int end);

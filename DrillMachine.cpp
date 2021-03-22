@@ -1,13 +1,6 @@
 #include "DrillMachine.h"
 
-DrillMachine::DrillMachine() : 
-sizeOfDrillChucks(10),
-numOfModes(2),
-motorPower(1500),
-cableLength(1.5f),
-accuTooWeak(false),
-screwTime(0) 
-{}
+DrillMachine::DrillMachine() {}
 
 
 DrillMachine::~DrillMachine()

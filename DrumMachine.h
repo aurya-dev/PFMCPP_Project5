@@ -12,11 +12,11 @@
 struct DrumMachine
 {
     Display display;
-    Drumpad drumpad;
+    Drumpad drumpad{32};
     VolumeControl volControl;
     PlayButton playButton;
     RecordButton recButton;
-    Pattern ptrn;
+    Pattern ptrn{0};
 
     DrumMachine();
     ~DrumMachine();

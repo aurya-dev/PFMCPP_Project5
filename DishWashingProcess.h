@@ -8,7 +8,10 @@
 struct DishWashingProcess
 {
     int errorAtMinute;
-    DishWashingProcess(int m) : errorAtMinute(m) {} 
+    DishWashingProcess(int m) 
+    {
+        errorAtMinute = m; 
+    } 
 
     void printErrorMessage();
 

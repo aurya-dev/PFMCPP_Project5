@@ -1,5 +1,7 @@
 #include "RecordButton.h"
 
+RecordButton::RecordButton() {}
+
 RecordButton::~RecordButton()
 {
     this->isLit = false;

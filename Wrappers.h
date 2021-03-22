@@ -3,34 +3,69 @@
 
 struct DishWasherWrapper
 {
-    DishWasherWrapper(DishWasher* d) : diWaPtr(d) {}
-    std::unique_ptr<DishWasher> diWaPtr = nullptr;
+    DishWasherWrapper(DishWasher* d) 
+    {
+        diWaPtr = d;
+    }
+    ~DishWasherWrapper()
+    {
+        delete diWaPtr;
+    }
+    DishWasher* diWaPtr = nullptr;
 }; 
 
 
 struct DishWashingProcessWrapper
 {
-    DishWashingProcessWrapper(DishWashingProcess* d) : washPtr(d) {}
-    std::unique_ptr<DishWashingProcess> washPtr = nullptr;
+    DishWashingProcessWrapper(DishWashingProcess* d) 
+    {
+        washPtr = d; 
+    }
+    ~DishWashingProcessWrapper()
+    {
+        delete washPtr;
+    }
+    DishWashingProcess* washPtr = nullptr;
 }; 
 
 
 struct DrumMachineWrapper
 {
-    DrumMachineWrapper(DrumMachine* d) : drMaPtr(d) {}
-    std::unique_ptr<DrumMachine> drMaPtr = nullptr;
+    DrumMachineWrapper(DrumMachine* d) 
+    {
+        drMaPtr = d; 
+    }
+    ~DrumMachineWrapper()
+    {
+        delete drMaPtr;
+    }
+    DrumMachine* drMaPtr = nullptr;
 }; 
 
 
 struct ServiceStationWrapper
 {
-    ServiceStationWrapper(ServiceStation* s) : serStaPtr(s) {}
-    std::unique_ptr<ServiceStation> serStaPtr = nullptr;
+    ServiceStationWrapper(ServiceStation* s) 
+    {
+        serStaPtr = s; 
+    }
+    ~ServiceStationWrapper()
+    {
+        delete serStaPtr;
+    }
+    ServiceStation* serStaPtr = nullptr;
 }; 
 
 
 struct ProjectWrapper
 {
-    ProjectWrapper(Project* p) : prjPtr(p) {}
-    std::unique_ptr<Project> prjPtr = nullptr;
+    ProjectWrapper(Project* p) 
+    {
+        prjPtr = p; 
+    }
+    ~ProjectWrapper()
+    {
+        delete prjPtr;
+    }
+    Project* prjPtr = nullptr;
 }; 

@@ -1,5 +1,12 @@
 #include "VolumeControl.h"
 
+VolumeControl::VolumeControl(int mxVl) 
+{
+    maxVolume = mxVl;
+    currentVol = 0;     
+} 
+
+
 VolumeControl::~VolumeControl()
 {
     currentVol = 0;

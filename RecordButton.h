@@ -4,10 +4,10 @@
 
 struct RecordButton
 {
-    bool isLit;
-    bool isFlash;
+    bool isLit = false;
+    bool isFlash = false;
 
-    RecordButton () : isLit(false), isFlash(false) {}
+    RecordButton ();
     ~RecordButton ();
 
     JUCE_LEAK_DETECTOR(RecordButton)

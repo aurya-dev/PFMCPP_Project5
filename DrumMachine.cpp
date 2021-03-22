@@ -3,12 +3,6 @@
 
 
 DrumMachine::DrumMachine()
-: display(), 
-drumpad(32), 
-volControl(), 
-playButton(), 
-recButton(),
-ptrn(0)
 {
     std::cout << "Constructor of DrumMachine executed" << std::endl;
 }

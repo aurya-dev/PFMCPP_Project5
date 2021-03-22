@@ -4,10 +4,10 @@
 
 struct PlayButton
 {
-    bool isLit;
-    bool isFlash;
+    bool isLit = false;
+    bool isFlash = false;
 
-    PlayButton () : isLit(false), isFlash(false) {}
+    PlayButton ();
     ~PlayButton ();
 
     JUCE_LEAK_DETECTOR(PlayButton)

@@ -1,5 +1,11 @@
 #include "Pattern.h"
 
+Pattern::Pattern( int pos ) 
+{ 
+    playHeadPos = pos; 
+    sequenceData = ""; 
+}
+
 void Pattern::printResult(int start, int end)
 {
     if(this->playHeadPos) 

@@ -4,12 +4,12 @@
 
 struct DrillMachine 
 {
-    int sizeOfDrillChucks;
-    int numOfModes;
-    int motorPower;
-    float cableLength;
-    bool accuTooWeak;
-    int screwTime;
+    int sizeOfDrillChucks = 10;
+    int numOfModes = 2;
+    int motorPower = 1500;
+    float cableLength = 1.5f;
+    bool accuTooWeak = false;
+    int screwTime = 0;
 
     DrillMachine();
     ~DrillMachine();

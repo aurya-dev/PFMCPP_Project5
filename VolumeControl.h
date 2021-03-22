@@ -9,7 +9,7 @@ struct VolumeControl
     bool isMaxVolume();
     void decreaseMasterVolume(int newVolume);
 
-    VolumeControl(int maxV = 127) : maxVolume(maxV), currentVol(0) {} 
+    VolumeControl(int maxVol = 127); 
     ~VolumeControl();
 
     JUCE_LEAK_DETECTOR(VolumeControl)
