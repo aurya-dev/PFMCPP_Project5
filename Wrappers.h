@@ -1,71 +1,48 @@
 #pragma once
 
+struct DishWasher;
+struct DishWashingProcess;
+struct DrumMachine;
+struct ServiceStation;
+struct Project;
+
+
 
 struct DishWasherWrapper
 {
-    DishWasherWrapper(DishWasher* d) 
-    {
-        diWaPtr = d;
-    }
-    ~DishWasherWrapper()
-    {
-        delete diWaPtr;
-    }
+    DishWasherWrapper(DishWasher* d);
+    ~DishWasherWrapper();
     DishWasher* diWaPtr = nullptr;
 }; 
 
 
 struct DishWashingProcessWrapper
 {
-    DishWashingProcessWrapper(DishWashingProcess* d) 
-    {
-        washPtr = d; 
-    }
-    ~DishWashingProcessWrapper()
-    {
-        delete washPtr;
-    }
+    DishWashingProcessWrapper(DishWashingProcess* d);
+    ~DishWashingProcessWrapper();
     DishWashingProcess* washPtr = nullptr;
 }; 
 
 
 struct DrumMachineWrapper
 {
-    DrumMachineWrapper(DrumMachine* d) 
-    {
-        drMaPtr = d; 
-    }
-    ~DrumMachineWrapper()
-    {
-        delete drMaPtr;
-    }
+    DrumMachineWrapper(DrumMachine* d);
+    ~DrumMachineWrapper();
     DrumMachine* drMaPtr = nullptr;
 }; 
 
 
 struct ServiceStationWrapper
 {
-    ServiceStationWrapper(ServiceStation* s) 
-    {
-        serStaPtr = s; 
-    }
-    ~ServiceStationWrapper()
-    {
-        delete serStaPtr;
-    }
+    ServiceStationWrapper(ServiceStation* s);
+    ~ServiceStationWrapper();
     ServiceStation* serStaPtr = nullptr;
 }; 
 
 
 struct ProjectWrapper
 {
-    ProjectWrapper(Project* p) 
-    {
-        prjPtr = p; 
-    }
-    ~ProjectWrapper()
-    {
-        delete prjPtr;
-    }
+    ProjectWrapper(Project* p);
+    ~ProjectWrapper();
     Project* prjPtr = nullptr;
 }; 
