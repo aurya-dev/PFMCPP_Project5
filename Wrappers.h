@@ -1,11 +1,10 @@
 #pragma once
 
-#include "DishWasher.h"
-#include "DishWashingProcess.h"
-#include "DrumMachine.h"
-#include "ServiceStation.h"
-#include "Project.h"
-
+struct DishWasher;
+struct DishWashingProcess;
+struct DrumMachine;
+struct ServiceStation;
+struct Project;
 
 
 struct DishWasherWrapper

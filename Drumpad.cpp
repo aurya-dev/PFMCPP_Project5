@@ -5,6 +5,7 @@ Drumpad::Drumpad(int num)
     numPads = num;
 }
 
-Drumpad::~Drumpad() { 
+Drumpad::~Drumpad() 
+{ 
     std::cout << "Drumpad distroyed" << std::endl; 
 }

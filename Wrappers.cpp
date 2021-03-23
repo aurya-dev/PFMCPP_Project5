@@ -1,6 +1,11 @@
 
 #include "Wrappers.h"
 
+#include "DishWasher.h"
+#include "DishWashingProcess.h"
+#include "DrumMachine.h"
+#include "ServiceStation.h"
+#include "Project.h"
 
 
 DishWasherWrapper::DishWasherWrapper(DishWasher* d) 
